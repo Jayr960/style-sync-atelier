@@ -1,5 +1,4 @@
-import { motion } from "framer-motion";
-import { useInView } from "framer-motion";
+import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import { Upload, Sparkles, ShoppingBag, Palette } from "lucide-react";
 
@@ -7,78 +6,61 @@ const features = [
   {
     icon: Upload,
     title: "Digital Wardrobe",
-    description: "Upload your entire closet and organize everything in one beautiful space. Tag by category, color, and occasion.",
+    description: "Upload your closet. Organize by category, color, season.",
+    number: "01",
   },
   {
     icon: Sparkles,
-    title: "AI Outfit Generator",
-    description: "Get personalized outfit suggestions powered by AI that understands your style preferences and occasion needs.",
+    title: "AI Styling",
+    description: "Get outfit combos that match your taste and occasion.",
+    number: "02",
   },
   {
     icon: Palette,
-    title: "Style Profile",
-    description: "Tell us your aesthetic, from minimalist to maximalist. We'll curate recommendations that match your vibe.",
+    title: "Style DNA",
+    description: "Build your unique style profile. We learn what you love.",
+    number: "03",
   },
   {
     icon: ShoppingBag,
-    title: "Smart Shopping",
-    description: "Discover pieces that perfectly complement your existing wardrobe. No more impulse buys that don't match.",
+    title: "Smart Shop",
+    description: "Discover pieces that actually fit your existing wardrobe.",
+    number: "04",
   },
 ];
 
-function FeatureCard({ feature, index }: { feature: typeof features[0]; index: number }) {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
-
-  return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y: 40 }}
-      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }}
-      transition={{ duration: 0.6, delay: index * 0.1, ease: [0.16, 1, 0.3, 1] }}
-      className="glass-card-hover p-8 sm:p-10"
-    >
-      <div className="w-12 h-12 rounded-xl bg-secondary flex items-center justify-center mb-6">
-        <feature.icon className="w-6 h-6 text-foreground" />
-      </div>
-      <h3 className="text-xl font-medium mb-3">{feature.title}</h3>
-      <p className="text-muted-foreground leading-relaxed">{feature.description}</p>
-    </motion.div>
-  );
-}
-
 export function FeaturesSection() {
-  const titleRef = useRef(null);
-  const isInView = useInView(titleRef, { once: true, margin: "-100px" });
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-80px" });
 
   return (
-    <section className="relative py-32 overflow-hidden">
-      {/* Subtle background */}
-      <div className="absolute inset-0 gradient-subtle" />
-      
-      <div className="relative z-10 container mx-auto px-6">
-        {/* Section header */}
-        <motion.div
-          ref={titleRef}
-          initial={{ opacity: 0, y: 30 }}
-          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-          className="text-center max-w-2xl mx-auto mb-20"
+    <section ref={ref} className="relative py-32 bg-background">
+      <div className="container mx-auto px-6">
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={isInView ? { opacity: 1 } : {}}
+          transition={{ duration: 0.5 }}
+          className="text-xs font-semibold tracking-[0.3em] uppercase text-muted-foreground mb-16"
         >
-          <h2 className="text-3xl sm:text-4xl font-light tracking-tight mb-6">
-            Everything you need to{" "}
-            <span className="font-medium">elevate your style</span>
-          </h2>
-          <p className="text-muted-foreground text-lg">
-            From organizing your closet to discovering new pieces, 
-            StyleSync is your complete fashion companion.
-          </p>
-        </motion.div>
+          What we do
+        </motion.p>
 
-        {/* Features grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 max-w-5xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-px bg-border rounded-2xl overflow-hidden">
           {features.map((feature, index) => (
-            <FeatureCard key={feature.title} feature={feature} index={index} />
+            <motion.div
+              key={feature.title}
+              initial={{ opacity: 0, y: 30 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.5, delay: index * 0.1, ease: [0.16, 1, 0.3, 1] }}
+              className="bg-background p-8 lg:p-10 group hover:bg-secondary/50 transition-colors duration-500"
+            >
+              <span className="text-xs font-mono text-muted-foreground/50">{feature.number}</span>
+              <div className="mt-6 mb-4 w-10 h-10 rounded-lg bg-secondary flex items-center justify-center group-hover:bg-foreground group-hover:text-primary-foreground transition-colors duration-300">
+                <feature.icon className="w-5 h-5" />
+              </div>
+              <h3 className="text-lg font-semibold mb-2">{feature.title}</h3>
+              <p className="text-sm text-muted-foreground leading-relaxed">{feature.description}</p>
+            </motion.div>
           ))}
         </div>
       </div>
